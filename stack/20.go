@@ -1,13 +1,6 @@
-package main
+package stack
 
 import "container/list"
-
-func main() {
-	ss := []string{"()", "()[]{}", "(]", "([)]", "{[]}"}
-	for _, s := range ss {
-		println(isValid(s))
-	}
-}
 
 func isValid(s string) bool {
 	if len(s) == 0 {
