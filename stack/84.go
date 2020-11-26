@@ -17,3 +17,31 @@ func largestRectangleArea(heights []int) int {
 	}
 	return max
 }
+
+func largestRectangleArea1(heights []int) int {
+
+	if len(heights) == 0 {
+		return 0
+	}
+
+	heights = append([]int{0}, heights...)
+	heights = append(heights, 0)
+
+	s := make([]int, len(heights))
+
+	max := 0
+
+	for i, v := range heights {
+		for v < heights[s[len(s)-1]] {
+			h := heights[s[len(s)-1]]
+			s = s[:len(s)-1]
+			w := i - s[len(s)-1] - 1
+			if max < h*w {
+				max = h * w
+			}
+		}
+		s = append(s, i)
+
+	}
+	return max
+}
