@@ -1,16 +1,19 @@
 package stack
 
 func largestRectangleArea(heights []int) int {
-	var s1 = []int{-1}
-	var s2 []int
-	max := -1
+	max := 0
+	for i, v := range heights {
+		countH := 1
+		for j := i + 1; j < len(heights) && heights[j] >= v; j++ {
+			countH++
+		}
+		for j := i - 1; j >= 0 && heights[j] >= v; j-- {
+			countH++
+		}
 
-	for _, v := range heights {
-		if v >= s1[len(s1)-1] {
-			s1 = append(s1, v)
-		} else {
-			s2 = append(s2, v)
+		if max < (countH * v) {
+			max = countH * v
 		}
 	}
-
+	return max
 }
