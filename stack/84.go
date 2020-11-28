@@ -27,7 +27,8 @@ func largestRectangleArea1(heights []int) int {
 	heights = append([]int{0}, heights...)
 	heights = append(heights, 0)
 
-	s := make([]int, len(heights))
+	s := make([]int, 0, len(heights)+1)
+	s = append([]int{0}, s...)
 
 	max := 0
 
