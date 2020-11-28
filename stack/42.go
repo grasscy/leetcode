@@ -5,26 +5,28 @@ func trap(height []int) int {
 		return 0
 	}
 
-	height = append([]int{111111}, height...)
-	height = append(height, 111111)
-
 	sum := 0
 	s := make([]int, 0, len(height))
 
 	for i, v := range height {
-		if len(s) == 0 {
+		l := len(s)
+		if l == 0 {
 			s = append(s, i)
 			continue
 		}
-		for v > height[s[len(s)-1]] {
-			s = s[:len(s)-1]
-			h := -height[s[len(s)-1]]
-			if v > height[s[len(s)-1]] {
-				h += height[s[len(s)-1]]
+		for l > 0 && v > height[s[l-1]] {
+			h := -height[s[l-1]]
+			s = s[:l-1]
+			l = len(s)
+			if l < 1 {
+				continue
+			}
+			if v > height[s[l-1]] {
+				h += height[s[l-1]]
 			} else {
 				h += v
 			}
-			sum += h * (i - s[len(s)-1])
+			sum += h * (i - s[l-1] - 1)
 		}
 		s = append(s, i)
 	}
