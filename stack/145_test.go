@@ -7,7 +7,7 @@ import (
 
 func Test_postorderTraversal(t *testing.T) {
 	n3 := &TreeNode{
-		Val:   3,
+		Val:   1,
 		Left:  nil,
 		Right: nil,
 	}
@@ -17,8 +17,8 @@ func Test_postorderTraversal(t *testing.T) {
 		Right: nil,
 	}
 	n1 := &TreeNode{
-		Val:   1,
-		Left:  nil,
+		Val:   3,
+		Left:  n3,
 		Right: n2,
 	}
 
