@@ -1,7 +1,6 @@
 package stack
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -22,16 +21,26 @@ func calculate(s string) int {
 				stkn = append(stkn, b)
 				n = ""
 			}
-			index := 0
-			for i := len(stkf) - 1; i > 0; i-- {
-				if stkf[i] == "(" {
-					index = i
+			i := 1
+			for ; ; i++ {
+				if stkf[len(stkf)-i] == "(" {
+					break
 				}
 			}
-			sstkf := stkf[index+1:]
-			sstkn := stkn[index:]
-			fmt.Println(sstkf)
-			fmt.Println(sstkn)
+			sstkf := stkf[len(stkf)-i+1:]
+			stkf = stkf[:len(stkf)-i]
+			sstkn := stkn[len(stkn)-i:]
+			stkn = stkn[:len(stkn)-i]
+			sum := sstkn[0]
+
+			for i, v := range sstkf {
+				if v == "+" {
+					sum += sstkn[i+1]
+				} else {
+					sum -= sstkn[i+1]
+				}
+			}
+			stkn = append(stkn, sum)
 
 		case "+":
 			if n != "" {
