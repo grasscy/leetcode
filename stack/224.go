@@ -1,51 +1,69 @@
 package stack
 
 import (
+	"fmt"
 	"strconv"
-	"strings"
 )
 
 func calculate(s string) int {
-	s = strings.ReplaceAll(s, "(", "")
-	s = strings.ReplaceAll(s, ")", "")
-	s = strings.ReplaceAll(s, " ", "")
-	if !strings.Contains(s, "+") && !strings.Contains(s, "-") {
-		a, _ := strconv.Atoi(s)
-		return a
-	}
-
 	stkn := make([]int, 0, len(s))
 	stkf := make([]string, 0, len(s))
+
 	n := ""
 	for _, v1 := range s {
 		v := string(v1)
 		switch v {
-		case "+", "-":
-			stkf = append(stkf, v)
-			if len(n) > 0 {
-				stkn = append(strconv.Atoi(n))
+		case " ":
+		case "(":
+			stkf = append(stkf, "(")
+		case ")":
+			if n != "" {
+				b, _ := strconv.Atoi(n)
+				stkn = append(stkn, b)
+				n = ""
 			}
+			index := 0
+			for i := len(stkf) - 1; i > 0; i-- {
+				if stkf[i] == "(" {
+					index = i
+				}
+			}
+			sstkf := stkf[index+1:]
+			sstkn := stkn[index:]
+			fmt.Println(sstkf)
+			fmt.Println(sstkn)
+
+		case "+":
+			if n != "" {
+				b, _ := strconv.Atoi(n)
+				stkn = append(stkn, b)
+				n = ""
+			}
+			stkf = append(stkf, "+")
+		case "-":
+			if n != "" {
+				b, _ := strconv.Atoi(n)
+				stkn = append(stkn, b)
+				n = ""
+			}
+			stkf = append(stkf, v)
 		default:
 			n += v
-			atoi, _ := strconv.Atoi(v)
-			if len(stkf) > 0 {
-				f := stkf[len(stkf)-1]
-				stkf = stkf[:len(stkf)-1]
-				if f == "+" {
-					a := stkn[len(stkn)-1]
-					stkn = stkn[:len(stkn)-1]
-					c := a + atoi
-					stkn = append(stkn, c)
-				} else {
-					a := stkn[len(stkn)-1]
-					stkn = stkn[:len(stkn)-1]
-					c := a - atoi
-					stkn = append(stkn, c)
-				}
-			} else {
-				stkn = append(stkn, atoi)
-			}
 		}
 	}
-	return stkn[0]
+	if n != "" {
+		b, _ := strconv.Atoi(n)
+		stkn = append(stkn, b)
+	}
+	sum := stkn[0]
+
+	for i, v := range stkf {
+		if v == "+" {
+			sum += stkn[i+1]
+		} else {
+			sum -= stkn[i+1]
+		}
+	}
+
+	return sum
 }
