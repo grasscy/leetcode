@@ -1,20 +1,25 @@
 package stack
 
 func removeDuplicateLetters(s string) string {
-	//empty := make([]int32, 0, len(s))
-	//stk := empty
 
-	res := make([]int32, 0, len(s))
-	masks := make([]bool, 'z'+1)
+	ns := make([]int32, 'z'+1)
+	stk := make([]int32, 0, len(s))
+	mark := make([]bool, 'z'+1)
 	for _, v := range s {
-		if !masks[v] {
-			res = append(res, v)
-			masks[v] = true
-		} else {
-
-		}
-
+		ns[v]++
 	}
 
-	return res
+	for _, v := range s {
+		if !mark[v] {
+			for len(stk) > 0 && stk[len(stk)-1] > v && ns[v] > 0 {
+				mark[len(stk)-1] = false
+				stk = stk[:len(stk)-1]
+			}
+			stk = append(stk, v)
+			mark[v] = true
+			ns[v]--
+		}
+	}
+
+	return string(stk)
 }
