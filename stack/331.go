@@ -2,6 +2,8 @@ package stack
 
 import "strings"
 
+//tips: 对于任意一颗二叉树，空节点个数=非空节点个数+1
+
 func isValidSerialization(preorder string) bool {
 	if preorder == "#" {
 		return true
