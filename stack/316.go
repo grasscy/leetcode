@@ -11,14 +11,16 @@ func removeDuplicateLetters(s string) string {
 
 	for _, v := range s {
 		if !mark[v] {
-			for len(stk) > 0 && stk[len(stk)-1] > v && ns[v] > 0 {
-				mark[len(stk)-1] = false
-				stk = stk[:len(stk)-1]
+			l := len(stk)
+			for l > 0 && stk[l-1] > v && ns[stk[l-1]] > 0 {
+				mark[stk[l-1]] = false
+				stk = stk[:l-1]
+				l = len(stk)
 			}
 			stk = append(stk, v)
 			mark[v] = true
-			ns[v]--
 		}
+		ns[v]--
 	}
 
 	return string(stk)
