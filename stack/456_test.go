@@ -19,7 +19,7 @@ func Test_find132pattern(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := find132pattern(tt.args.nums); got != tt.want {
+			if got := find132pattern1(tt.args.nums); got != tt.want {
 				t.Errorf("find132pattern() = %v, want %v", got, tt.want)
 			}
 		})
