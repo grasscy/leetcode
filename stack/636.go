@@ -37,6 +37,31 @@ func exclusiveTime(n int, logs []string) []int {
 	return res
 }
 
+func exclusiveTime1(n int, logs []string) []int {
+	res := make([]int, n)
+	stk := make([]Info, 0, len(logs))
+
+	for _, log := range logs {
+		info := getInfo(log)
+		if info.Type == "end" {
+			si := stk[len(stk)-1]
+			stk = stk[:len(stk)-1]
+			res[info.Id] += info.T - si.T + 1
+			if len(stk) > 0 {
+				stk[len(stk)-1].T = info.T + 1
+			}
+		} else {
+			if len(stk) > 0 {
+				res[stk[len(stk)-1].Id] += info.T - stk[len(stk)-1].T
+			}
+
+			stk = append(stk, info)
+		}
+
+	}
+	return res
+}
+
 func getInfo(s string) Info {
 	split := strings.Split(s, ":")
 	id, _ := strconv.Atoi(split[0])
