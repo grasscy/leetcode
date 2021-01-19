@@ -5,20 +5,10 @@ import "sort"
 func largestPerimeter(A []int) int {
 	sort.Ints(A)
 
-	k := len(A) - 1
-	j := k - 1
-	i := k - 2
-
-	res := 0
-
-	for {
-		if A[i]+A[j] > A[k] {
-			return A[i] + A[j] + A[k]
+	for k := len(A) - 1; k > 1; k-- {
+		if A[k-2]+A[k-1] > A[k] {
+			return A[k-2] + A[k-1] + A[k]
 		}
-		if A[i]+A[j] == k {
-			return
-		}
-
 	}
 
 	return 0
